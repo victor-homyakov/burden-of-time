@@ -172,6 +172,22 @@ setCookie2(expires2);</code>
     </div>
 </section>
 
+<section class="slide">
+    <div>
+        <ul>
+            <li class="next">
+                Сайт с глобальной аудиторией (github). Каждый 24-й зашедший - в часовом поясе, в котором полночь.
+            </li>
+            <li class="next">
+                Локальный сайт с промо-акцией в полночь
+            </li>
+            <li class="next">
+                Хабраэффект
+            </li>
+        </ul>
+    </div>
+</section>
+
 <!-- 1.2 -->
 <section class="slide">
     <div>
@@ -234,6 +250,11 @@ setCookie2(expires2);</code>
 <code class="hljs javascript">ajax(query1, callback);
 ajax(query2, callback);</code>
         </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
         <pre>
 <code>query1 &rarr; callback(response1) &rarr; query2 &rarr; callback(response2)
 
@@ -257,11 +278,21 @@ query1 &rarr; query2 &rarr; callback(response2) &rarr; callback(response1)</code
             throttle, debounce и ajax callback после destroy
         </p>
         <pre>
-<code class="hljs javascript">// TODO
+<code class="hljs javascript">
 const scrollHandler = _.throttle(function() {/*код*/});
 window.addEventListener('resize', scrollHandler);
 </code>
         </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Не забывать в деструкторе прерывать все незавершённые запросы AJAX/fetch,
+            останавливать таймеры setTimeout/setInterval,
+            останавливать _.throttle _.debounce
+        </p>
     </div>
 </section>
 
@@ -278,14 +309,14 @@ window.addEventListener('resize', scrollHandler);
 <!-- 3.1 -->
 <section class="slide">
     <div>
-        <h2 class="shout shrink">3.1 Await</h2>
+        <h2 class="shout shrink">3.1 Promise.then</h2>
     </div>
 </section>
 
 <section class="slide">
     <div>
         <p>
-            Использование <code>Promise.then.then</code> и <code>async await</code> там, где код можно распараллелить
+            Использование <code>.then</code> там, где код можно распараллелить
         </p>
         <pre>
 <code class="hljs javascript">promise1
@@ -294,6 +325,36 @@ window.addEventListener('resize', scrollHandler);
         // обработка data1 и data2
     });</code>
         </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            <code>Promise.all()</code> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+        </p>
+        <p>
+            Библиотеки для удобного последовательного/параллельного выполнения задач:
+            Async https://caolan.github.io/async/
+            <code>async.parallel()</code>
+            <code>async.series()</code>
+            <code>async.waterfall()</code>
+        </p>
+    </div>
+</section>
+
+<!-- 3.2 -->
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">3.2 Await</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Использование <code>async await</code> там, где код можно распараллелить
+        </p>
         <pre>
 <code class="hljs javascript">const data1 = await query1();
 const data2 = await query2();</code>
