@@ -176,7 +176,7 @@ setCookie2(expires2);</code>
     <div>
         <ul>
             <li class="next">
-                Сайт с глобальной аудиторией (github). Каждый 24-й зашедший - в часовом поясе, в котором полночь.
+                Сайт с глобальной аудиторией (github). Каждый 24-й зашедший &mdash; в часовом поясе, в котором полночь.
             </li>
             <li class="next">
                 Локальный сайт с промо-акцией в полночь
@@ -199,7 +199,7 @@ setCookie2(expires2);</code>
     <div>
         <p>
             Если вы используете <code>Date.now()</code> для измерения продолжительности выполнения кода,
-            то у вас проблемы: Date.now() &mdash; неравномерный и немонотонный.
+            то у вас проблемы: <code>Date.now()</code> &mdash; неравномерный и немонотонный.
             Надо использовать <code>performance.now()</code>.
         </p>
         <p>
@@ -244,6 +244,8 @@ setCookie2(expires2);</code>
         <p>
             Последовательность AJAX callbacks на примере autocomplete/suggest и других запросов,
             инициируемых действиями человека
+        </p>
+        <p>
             TODO видео саджеста
         </p>
         <pre>
@@ -255,12 +257,15 @@ ajax(query2, callback);</code>
 
 <section class="slide">
     <div>
+        <p>
+            Варианты выполнения
+        </p>
         <pre>
-<code>query1 &rarr; callback(response1) &rarr; query2 &rarr; callback(response2)
+<code class="next">query1 &rarr; callback(response1) &rarr; query2 &rarr; callback(response2)</code>
 
-query1 &rarr; query2 &rarr; callback(response1) &rarr; callback(response2)
+<code class="next">query1 &rarr; query2 &rarr; callback(response1) &rarr; callback(response2)</code>
 
-query1 &rarr; query2 &rarr; callback(response2) &rarr; callback(response1)</code>
+<code class="next">query1 &rarr; query2 &rarr; callback(response2) &rarr; callback(response1)</code>
         </pre>
     </div>
 </section>
@@ -275,11 +280,10 @@ query1 &rarr; query2 &rarr; callback(response2) &rarr; callback(response1)</code
 <section class="slide">
     <div>
         <p>
-            throttle, debounce и ajax callback после destroy
+            Что плохого в этом коде?
         </p>
         <pre>
-<code class="hljs javascript">
-const scrollHandler = _.throttle(function() {/*код*/});
+<code class="hljs javascript">const scrollHandler = function() {/*код*/};
 window.addEventListener('resize', scrollHandler);
 </code>
         </pre>
@@ -289,9 +293,42 @@ window.addEventListener('resize', scrollHandler);
 <section class="slide">
     <div>
         <p>
-            Не забывать в деструкторе прерывать все незавершённые запросы AJAX/fetch,
-            останавливать таймеры setTimeout/setInterval,
-            останавливать _.throttle _.debounce
+            Нужен throttle
+        </p>
+        <pre>
+<code class="hljs javascript">const scrollHandler = _.throttle(function() {/*код*/});
+window.addEventListener('resize', scrollHandler);
+</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            После деструктора методы объекта всё ещё могут вызваться:
+        </p>
+        <ul>
+            <li class="next">
+                из <code>_.throttle()</code>, <code>_.debounce()</code>
+            </li>
+            <li class="next">
+                из <code>setTimeout()</code>, <code>setInterval()</code>, <code>requestAnimationFrame()</code>
+            </li>
+            <li class="next">
+                из незавершённых запросов AJAX/fetch
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            По-умному это &mdash; несовпадение времени жизни связанных друг с другом объектов.
+        </p>
+        <p class="next">
+            Второй негативный эффект этого &mdash; утечки памяти.
         </p>
     </div>
 </section>
@@ -333,13 +370,21 @@ window.addEventListener('resize', scrollHandler);
         <p>
             <code>Promise.all()</code> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
         </p>
-        <p>
-            Библиотеки для удобного последовательного/параллельного выполнения задач:
-            Async https://caolan.github.io/async/
-            <code>async.parallel()</code>
-            <code>async.series()</code>
-            <code>async.waterfall()</code>
+        <p class="next">
+            <a href="https://caolan.github.io/async/">Async</a>:
+            библиотека для удобного планирования задач
         </p>
+        <ul>
+            <li class="next">
+                <code>async.parallel()</code>
+            </li>
+            <li class="next">
+                <code>async.series()</code>
+            </li>
+            <li class="next">
+                <code>async.waterfall()</code>
+            </li>
+        </ul>
     </div>
 </section>
 
@@ -353,7 +398,7 @@ window.addEventListener('resize', scrollHandler);
 <section class="slide">
     <div>
         <p>
-            Использование <code>async await</code> там, где код можно распараллелить
+            C помощью <code>async await</code> наделать ошибок стало проще
         </p>
         <pre>
 <code class="hljs javascript">const data1 = await query1();
@@ -365,8 +410,9 @@ const data2 = await query2();</code>
 <section class="slide">
     <div>
         <h2 class="shout shrink">
-            Дополнительно.<br>
-            (если не хватит основного)
+            На десерт.<br>
+            (если не хватит первого,<br>
+            второго и третьего)
         </h2>
     </div>
 </section>
@@ -389,7 +435,10 @@ const data2 = await query2();</code>
 <!-- 4.2 -->
 <section class="slide">
     <div>
-        <h2 class="shout shrink">4.2 Правильный интервал в одни сутки</h2>
+        <h2 class="shout shrink">
+            4.2 Правильный интервал<br>
+            в одни сутки
+        </h2>
     </div>
 </section>
 
