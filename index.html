@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Тяжёлое бремя времени</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="src/styles/yandex2/styles/screen-16x9.css">
+    <link rel="stylesheet" href="src/highlight/styles/github.css">
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+
+        .slide ul > li:lang(ru)::before {
+            content: '';
+        }
+
+        .slide ol > li strong,
+        .slide ul > li strong {
+            display: inline;
+        }
+
+        .slide li table th,
+        .slide li table td {
+            text-indent: 0 !important;
+        }
+
+        .slide .columns-2 ol {
+            float: left;
+            margin-left: 70px;
+            list-style: none;
+            padding: 0;
+            line-height: 60px;
+            width: 780px;
+        }
+
+        .slide .shout {
+            font-size: 2em;
+        }
+
+        .slide h3 a {
+            text-decoration: none;
+            color: black;
+            background: none;
+        }
+
+        .slide.big-image > div {
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        .slide.big-image img,
+        .slide.big-image video {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        pre.margin-30 {
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body class="shower list">
+
+<header class="caption">
+    <h1>
+        Тяжёлое бремя времени:<br>
+        типичные ошибки при работе со временем
+    </h1>
+    <p>
+        Виктор Хомяков, <a href="https://yandex.ru/">Яндекс</a>
+    </p>
+</header>
+
+<section class="slide title">
+    <div>
+        <h2>
+            Тяжёлое бремя времени:<br>
+            <span style="font-size: 70px; line-height: 70px;">типичные ошибки при работе со временем</span>
+        </h2>
+        <h3><img src="src/styles/yandex2/images/title-logo-ru.svg" alt="Logo" /></h3>
+        <div class="authors">
+            <p>Виктор Хомяков, Яндекс</p>
+        </div>
+    </div>
+</section>
+
+<!-- вступление -->
+<!-- почему именно я рассказываю именно об этой теме и какой у меня опыт в данной области -->
+<section class="slide">
+    <div style="left: 690px">
+        <h2>О себе</h2>
+        <p>
+            Я работал в трёх продуктовых компаниях,
+            видел много кода в проектах на разных языках и фреймворках
+            (Java, C#, JavaScript).
+        </p>
+    </div>
+    <img class="place left height cover" src="pictures/me.jpg" alt="Виктор Хомяков">
+</section>
+
+<!-- почему аудитории важно послушать мой доклад -->
+<section class="slide">
+    <div>
+        <h2>И вот что я увидел</h2>
+        <ol>
+            <li class="next">
+                В разных проектах возникают похожие задачи по работе с датой/временем
+            </li>
+            <li class="next">
+                Также возникают похожие задачи вызова асинхронных/удалённых частей кода (AJAX, запросы в БД и т.п.)
+            </li>
+            <li class="next">
+                Разные люди решают эти задачи почти одинаково, независимо от языка
+            </li>
+            <li class="next">
+                И допускают одинаковые ошибки
+            </li>
+        </ol>
+    </div>
+</section>
+
+<!-- какую пользу получит слушатель от моего выступления -->
+<section class="slide">
+    <div>
+        <h2>О чём я хочу рассказать</h2>
+        <ul>
+            <li class="next">
+                О повторяющихся паттернах при работе с датой/временем/асинхронным кодом
+            </li>
+            <li class="next">
+                Об ошибках, которые легко сделать
+            </li>
+            <li class="next">
+                И как их не допускать
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- основная часть -->
+
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">
+            Часть первая.<br>
+            Работа с датой/временем:<br>
+            время бежит и летит,<br>
+            а иногда даже идёт назад
+        </h2>
+    </div>
+</section>
+
+<!-- 1.1 -->
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">1.1. Время &mdash; не константа</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Пример: установка двух связанных cookies
+        </p>
+        <pre>
+<code class="hljs javascript">const expires1 = Date.now() + 100500;
+setCookie1(expires1);
+const expires2 = Date.now() + 100500;
+setCookie2(expires2);</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <ul>
+            <li class="next">
+                Сайт с глобальной аудиторией (github). Каждый 24-й зашедший - в часовом поясе, в котором полночь.
+            </li>
+            <li class="next">
+                Локальный сайт с промо-акцией в полночь
+            </li>
+            <li class="next">
+                Хабраэффект
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- 1.2 -->
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">1.2. Измерение интервалов и логирование времени событий</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Если вы используете <code>Date.now()</code> для измерения продолжительности выполнения кода,
+            то у вас проблемы: Date.now() &mdash; неравномерный и немонотонный.
+            Надо использовать <code>performance.now()</code>.
+        </p>
+        <p>
+            Аналогично и на бэкэнде &mdash; проверьте, что ваш источник интервалов &mdash; равномерный и монотонный.
+            Гуглить по словам "consistent monotonic clock".
+        </p>
+        <p>
+            Для Java:
+        </p>
+        <ul>
+            <li>
+                вопросы на StackOverflow
+                <a href="https://stackoverflow.com/questions/434369/monotonically-increasing-time-in-java">1</a>
+                <a href="https://stackoverflow.com/questions/34778744/is-there-any-consistent-monotonic-clock-implementation-in-java">2</a>
+            </li>
+            <li>
+                Документация по <a href="https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/System.html#nanoTime()">System.nanoTime()</a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">
+            Часть вторая.<br>
+            А мы не ждали вас, а вы...<br>
+            (нежданная асинхронность)
+        </h2>
+    </div>
+</section>
+
+<!-- 2.1 -->
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">2.1 Медленный AJAX</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Последовательность AJAX callbacks на примере autocomplete/suggest и других запросов,
+            инициируемых действиями человека
+            TODO видео саджеста
+        </p>
+        <pre>
+<code class="hljs javascript">ajax(query1, callback);
+ajax(query2, callback);</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <pre>
+<code>query1 &rarr; callback(response1) &rarr; query2 &rarr; callback(response2)
+
+query1 &rarr; query2 &rarr; callback(response1) &rarr; callback(response2)
+
+query1 &rarr; query2 &rarr; callback(response2) &rarr; callback(response1)</code>
+        </pre>
+    </div>
+</section>
+
+<!-- 2.2 -->
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">2.2 Есть ли жизнь после destroy?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            throttle, debounce и ajax callback после destroy
+        </p>
+        <pre>
+<code class="hljs javascript">
+const scrollHandler = _.throttle(function() {/*код*/});
+window.addEventListener('resize', scrollHandler);
+</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Не забывать в деструкторе прерывать все незавершённые запросы AJAX/fetch,
+            останавливать таймеры setTimeout/setInterval,
+            останавливать _.throttle _.debounce
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">
+            Часть третья.<br>
+            В очередь, с...ны дети!!!<br>
+            (нежданная синхронность)
+        </h2>
+    </div>
+</section>
+
+<!-- 3.1 -->
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">3.1 Promise.then</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Использование <code>.then</code> там, где код можно распараллелить
+        </p>
+        <pre>
+<code class="hljs javascript">promise1
+    .then(promise2)
+    .then(function() {
+        // обработка data1 и data2
+    });</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            <code>Promise.all()</code> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+        </p>
+        <p>
+            Библиотеки для удобного последовательного/параллельного выполнения задач:
+            Async https://caolan.github.io/async/
+            <code>async.parallel()</code>
+            <code>async.series()</code>
+            <code>async.waterfall()</code>
+        </p>
+    </div>
+</section>
+
+<!-- 3.2 -->
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">3.2 Await</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Использование <code>async await</code> там, где код можно распараллелить
+        </p>
+        <pre>
+<code class="hljs javascript">const data1 = await query1();
+const data2 = await query2();</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">
+            Дополнительно.<br>
+            (если не хватит основного)
+        </h2>
+    </div>
+</section>
+
+<!-- 4.1 -->
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">4.1 Сколько секунд в минуте?</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Про високосные секунды
+        </p>
+    </div>
+</section>
+
+<!-- 4.2 -->
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">4.2 Правильный интервал в одни сутки</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            Про запросы в базу за сутки с 0:00:00 по 23:59:59 (без миллисекунд и т.п.)
+        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Материалы</h2>
+        <ul>
+            <li>
+                <a href="1">
+                    1
+                </a>
+            </li>
+            <li class="next">
+                <a href="2">
+                    2
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2 class="shout shrink">Заключение</h2>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <ul>
+            <li>
+                1
+            </li>
+            <li class="next">
+                2
+            </li>
+            <li class="next">
+                3
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide contacts">
+    <div>
+        <h2>Спасибо! Вопросы?</h2>
+        <figure>
+            <h3>Виктор Хомяков</h3>
+            <p>разработчик интерфейсов</p>
+        </figure>
+
+        <hr />
+        <ul>
+            <li class="mail">vkhomyackov@gmail.com</li>
+            <li class="mail">v-homyakov@yandex-team.ru</li>
+        </ul>
+        <ul>
+            <li class="github">victor-homyakov</li>
+        </ul>
+    </div>
+</section>
+
+<div class="progress"></div>
+
+<script src="node_modules/shower-core/shower.min.js"></script>
+<script src="src/highlight/highlight.pack.js"></script>
+<script>
+    console.timeStamp('Начало inline JS');
+
+    console.time('add keywords');
+    (function() {
+        var js = hljs.getLanguage('javascript');
+        if (js && js.k && (typeof js.k.built_in === 'string')) {
+            js.k.built_in += ' performance process';
+        }
+    })();
+    console.timeEnd('add keywords');
+
+    console.time('init hljs');
+    hljs.initHighlightingOnLoad();
+    console.timeEnd('init hljs');
+</script>
+</body>
+</html>
