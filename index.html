@@ -102,7 +102,7 @@
 <!-- почему аудитории важно послушать мой доклад -->
 <section class="slide">
     <div>
-        <h2>И вот что я увидел</h2>
+        <h2>Что я увидел</h2>
         <ol>
             <li class="next">
                 В разных проектах возникают похожие задачи по работе с датой/временем
@@ -144,9 +144,7 @@
     <div>
         <h2 class="shout shrink">
             Часть первая.<br>
-            Работа с датой/временем:<br>
-            время бежит и летит,<br>
-            а иногда даже идёт назад
+            Время назад
         </h2>
     </div>
 </section>
@@ -166,10 +164,13 @@
 setCookie1(expires1);
 const expires2 = Date.now() + 100500;
 setCookie2(expires2);</code>
-            TODO добавить trollface "проблемы, тимлид?"
         </pre>
         <p class="next">
             <code>Date.now()</code> &mdash; не константа!
+        </p>
+        <p class="place right bottom">
+            <img src="pictures/trollface.png" alt="" class="place right bottom">
+            Проблемы, тимлид?
         </p>
     </div>
 </section>
@@ -218,11 +219,28 @@ setCookie2(expires2);</code>
 
 <section class="slide">
     <div>
+        <pre>
+<code class="hljs javascript">const start = Date.now();
+transaction();
+const finish = Date.now();
+log('Транзакция длилась ' + (finish - start));</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
         <p>
-            Если вы используете <code>Date.now()</code> для измерения продолжительности выполнения кода,
-            то у вас проблемы: <code>Date.now()</code> &mdash; неравномерный и немонотонный.
+            <code>Date.now()</code> &mdash; неравномерный и немонотонный.
+        </p>
+        <p>
             Надо использовать <code>performance.now()</code>.
         </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
         <p>
             Аналогично на бэкэнде &mdash; проверьте, что ваш источник интервалов &mdash; равномерный и монотонный.
             Гуглить по словам "consistent monotonic clock".
@@ -237,10 +255,15 @@ setCookie2(expires2);</code>
                 <a href="https://stackoverflow.com/questions/34778744/is-there-any-consistent-monotonic-clock-implementation-in-java">2</a>
             </li>
             <li>
-                Документация по
+                документация по
                 <a href="https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/System.html#nanoTime()">System.nanoTime()</a>
             </li>
         </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
         <p>
             В распределённых системах ещё сложнее. Вместо времени можно использовать счётчики событий.
         </p>
@@ -251,8 +274,7 @@ setCookie2(expires2);</code>
     <div>
         <h2 class="shout shrink">
             Часть вторая.<br>
-            А мы не ждали вас, а вы...<br>
-            (нежданная асинхронность)
+            Такая асинхронная асинхронность
         </h2>
     </div>
 </section>
@@ -345,7 +367,7 @@ ajax(query2, callback);</code>
     .debounce(500 /* ms */)
     .distinctUntilChanged();
 
-var suggestions = keyups.flatMapLatest(ajax); // flatMapLatest</code>
+var suggestions = keyups.flatMapLatest(ajax); // игнорируем старые ответы</code>
         </pre>
     </div>
 </section>
@@ -361,9 +383,8 @@ var suggestions = keyups.flatMapLatest(ajax); // flatMapLatest</code>
     <div>
         <h2>Что можно улучшить в этом коде?</h2>
         <pre>
-<code class="hljs javascript">const resizeHandler = function() {/*код*/};
-window.addEventListener('resize', resizeHandler);
-</code>
+<code class="hljs javascript">const scrollHandler = function() {/*код*/};
+window.addEventListener('scroll', scrollHandler);</code>
         </pre>
     </div>
     <img src="pictures/thinking-face.png" alt="" class="place left bottom" style="height: 35%; left: 5%;">
@@ -371,11 +392,51 @@ window.addEventListener('resize', resizeHandler);
 
 <section class="slide">
     <div>
-        <h2>Нужен throttle</h2>
+        <p>
+            События, которые возникают слишком часто:
+        </p>
+        <ul>
+            <li class="next">resize</li>
+            <li class="next">scroll</li>
+            <li class="next">mousemove</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <figure>
+            <img src="pictures/throttling-01.png" alt="throttle" style="width: 100%;">
+        </figure>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
+            События, которые возникают слишком часто:
+        </p>
+        <ul>
+            <li class="next">keyup</li>
+            <li class="next">tap</li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <figure>
+            <img src="pictures/debounce.png" alt="debounce" style="width: 100%;">
+        </figure>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Для scroll нужен throttle</h2>
         <pre>
-<code class="hljs javascript">const resizeHandler = _.throttle(function() {/*код*/});
-window.addEventListener('resize', resizeHandler);
-</code>
+<code class="hljs javascript">const scrollHandler = _.throttle(function() {/*код*/}, 200 /*миллисекунд*/);
+window.addEventListener('scroll', scrollHandler);</code>
         </pre>
     </div>
 </section>
@@ -384,22 +445,21 @@ window.addEventListener('resize', resizeHandler);
     <div>
         <h2>Не забываем про destroy объекта</h2>
         <pre>
-<code class="hljs javascript">class Something {
+<code class="hljs javascript">class InfiniteScroll {
     constructor() {
-        this._resizeHandler = _.throttle(this.resizeHandler.bind(this));
-        window.addEventListener('resize', this._resizeHandler);
+        this._scrollHandler = _.throttle(this.scrollHandler.bind(this),
+            200 /*миллисекунд*/);
+        window.addEventListener('scroll', this._scrollHandler);
     }
 
-    resizeHandler() {/* код */}
+    scrollHandler() {/* код */}
 
     destroy() {
-        this._resizeHandler.cancel(); // убираем за собой
+        this._scrollHandler.cancel(); // убираем за собой
     }
 }</code>
         </pre>
     </div>
-    <script>
-    </script>
 </section>
 
 <section class="slide">
@@ -412,7 +472,8 @@ window.addEventListener('resize', resizeHandler);
                 из <code>_.throttle()</code>, <code>_.debounce()</code>
             </li>
             <li class="next">
-                из <code>setTimeout()</code>, <code>setInterval()</code>, <code>requestAnimationFrame()</code>
+                из <code>setTimeout()</code>, <code>setInterval()</code>,
+                <code>requestAnimationFrame()</code>, <code>requestIdleCallback</code>
             </li>
             <li class="next">
                 из незавершённых запросов AJAX/fetch
@@ -442,8 +503,7 @@ window.addEventListener('resize', resizeHandler);
     <div>
         <h2 class="shout shrink">
             Часть третья.<br>
-            В очередь, с...ны дети!!!<br>
-            (нежданная синхронность)
+            Нежданная синхронность
         </h2>
     </div>
 </section>
@@ -521,65 +581,48 @@ window.addEventListener('resize', resizeHandler);
 <code class="hljs javascript">const data1 = await query1();
 const data2 = await query2();</code>
         </pre>
-        <p class="next">
-            Иногда код запросов можно распараллелить
-        </p>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Используя await, главное &mdash; не перестараться</h2>
+        <pre>
+<code class="hljs javascript">const data1 = await query1(); // ждём выполнения первого запроса
+const data2 = await query2(); // ждём выполнения второго запроса</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Если запросы &mdash; независимые</h2>
+        <pre>
+<code class="hljs javascript">const [data1, data2] = await Promise.all(
+    [query1(), query2()]
+);</code>
+        </pre>
+        <ul>
+            <li class="next">
+                выполняются параллельно
+            </li>
+            <li class="next">
+                при ошибках быстрее упадём
+            </li>
+        </ul>
     </div>
 </section>
 
 <section class="slide">
     <div>
         <p>
-            <code>await</code> заметить сложнее, чем <code>.then().then()</code>.
+            Проще написать <code>await</code>, чем <code>.then().then()</code>
         </p>
         <p class="next">
-            Внести незапланированную синхронность стало проще
+            Проще внести незапланированную синхронизацию
         </p>
         <p class="next">
             Следите за кодом &mdash; возможно, ваши <code>await</code>можно распараллелить!
-        </p>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2 class="shout shrink">
-            На десерт.<br>
-            (если не хватит первого,<br>
-            второго и третьего)
-        </h2>
-    </div>
-</section>
-
-<!-- 4.1 -->
-<section class="slide">
-    <div>
-        <h2 class="shout shrink">4.1 Сколько секунд в минуте?</h2>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <p>
-            Про високосные секунды
-        </p>
-    </div>
-</section>
-
-<!-- 4.2 -->
-<section class="slide">
-    <div>
-        <h2 class="shout shrink">
-            4.2 Правильный интервал<br>
-            в одни сутки
-        </h2>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <p>
-            Про запросы в базу за сутки с 0:00:00 по 23:59:59 (без миллисекунд и т.п.)
         </p>
     </div>
 </section>
@@ -599,8 +642,21 @@ const data2 = await query2();</code>
                 </a>
             </li>
             <li class="next">
-                <a href="2">
-                    TODO add link for RxJS
+                <a href="https://github.com/Reactive-Extensions/RxJS">
+                    RxJS 4
+                </a>,
+                <a href="https://github.com/ReactiveX/rxjs">
+                    RxJS 5+
+                </a>
+            </li>
+            <li class="next">
+                <a href="https://css-tricks.com/debouncing-throttling-explained-examples/">
+                    Что такое throttling и debouncing (на английском языке)
+                </a>
+            </li>
+            <li class="next">
+                <a href="https://artemdemo.me/blog/throttling-vs-debouncing/">
+                    Что такое throttling и debouncing (на русском языке)
                 </a>
             </li>
         </ul>
