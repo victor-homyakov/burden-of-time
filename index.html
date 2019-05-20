@@ -189,7 +189,7 @@ setCookie2(expires2);</code>
             </li>
             <!-- спросить, кто читает Хабр -->
             <li class="next">
-                Страничка для собственного удовольствия&hellip;<br>
+                Страничка для своего кота&hellip;<br>
                 <span class="next">хабраэффект</span>
             </li>
         </ul>
@@ -213,59 +213,67 @@ setCookie2(expires2);</code>
 <!-- 1.2 -->
 <section class="slide">
     <div>
-        <h2 class="shout shrink">1.2. Измерение интервалов и логирование времени событий</h2>
+        <h2 class="shout shrink">1.2. Измерение интервалов и логирование событий</h2>
     </div>
 </section>
 
 <section class="slide">
     <div>
+        <h2>Логируем транзакции</h2>
         <pre>
-<code class="hljs javascript">const start = Date.now();
+<code class="hljs javascript">const start = Date.now(); // 1550000000000
 transaction();
-const finish = Date.now();
-log('Транзакция длилась ' + (finish - start));</code>
+const finish = Date.now(); // 1549999999000
+log(`Транзакция длилась ${finish - start}мс`); // Транзакция длилась -1000мс</code>
         </pre>
     </div>
 </section>
 
 <section class="slide">
     <div>
+        <h2>JavaScript</h2>
         <p>
-            <code>Date.now()</code> &mdash; неравномерный и немонотонный.
+            <code>Date.now()</code> &mdash; неравномерный и немонотонный
         </p>
-        <p>
-            Надо использовать <code>performance.now()</code>.
+        <p class="next">
+            NTP daemon может
+            <a href="https://serverfault.com/questions/94683/will-ntp-drift-the-clock-backwards">
+                замедлять и отматывать назад
+            </a>
+            часы
+        </p>
+        <p class="next">
+            Пользователь может сам менять время
+        </p>
+        <p class="next">
+            Надо использовать <code>performance.now()</code>
         </p>
     </div>
 </section>
 
 <section class="slide">
     <div>
+        <h2>Бэкэнд</h2>
         <p>
-            Аналогично на бэкэнде &mdash; проверьте, что ваш источник интервалов &mdash; равномерный и монотонный.
-            Гуглить по словам "consistent monotonic clock".
+            Аналогичная проблема, гуглить "consistent monotonic clock"
         </p>
-        <p>
+        <p class="next">
             Для Java:
+            <a href="https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/System.html#nanoTime()">
+                System.nanoTime()
+            </a>
         </p>
-        <ul>
-            <li>
-                вопросы на StackOverflow
-                <a href="https://stackoverflow.com/questions/434369/monotonically-increasing-time-in-java">1</a>
-                <a href="https://stackoverflow.com/questions/34778744/is-there-any-consistent-monotonic-clock-implementation-in-java">2</a>
-            </li>
-            <li>
-                документация по
-                <a href="https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/System.html#nanoTime()">System.nanoTime()</a>
-            </li>
-        </ul>
     </div>
 </section>
 
 <section class="slide">
     <div>
-        <p>
-            В распределённых системах ещё сложнее. Вместо времени можно использовать счётчики событий.
+        <h2>Распределённая система</h2>
+        <img src="pictures/clock-7.jpg" style="width: 31%" alt="Clock 7" class="next">
+        <img src="pictures/clock-2.jpg" style="width: 31%" alt="Clock 2" class="next">
+        <img src="pictures/clock-9.jpg" style="width: 31%" alt="Clock 9" class="next">
+        <p class="next">
+            Вектор времени или счётчики событий
         </p>
     </div>
 </section>
@@ -364,7 +372,7 @@ ajax(query2, callback);</code>
 <code class="hljs javascript">var keyups = Rx.Observable.fromEvent($('#input'), 'keyup')
     .pluck('target', 'value')
     .filter(text => text.length > 2)
-    .debounce(500 /* ms */)
+    .debounce(500 /* миллисекунд */)
     .distinctUntilChanged();
 
 var suggestions = keyups.flatMapLatest(ajax); // игнорируем старые ответы</code>
@@ -472,8 +480,10 @@ window.addEventListener('scroll', scrollHandler);</code>
                 из <code>_.throttle()</code>, <code>_.debounce()</code>
             </li>
             <li class="next">
-                из <code>setTimeout()</code>, <code>setInterval()</code>,
-                <code>requestAnimationFrame()</code>, <code>requestIdleCallback</code>
+                из <code>setTimeout()</code>, <code>setInterval()</code>
+            </li>
+            <li class="next">
+                из <code>requestAnimationFrame()</code>, <code>requestIdleCallback</code>
             </li>
             <li class="next">
                 из незавершённых запросов AJAX/fetch
@@ -650,13 +660,24 @@ const data2 = await query2(); // ждём выполнения второго з
                 </a>
             </li>
             <li class="next">
+                Что такое throttling и debouncing
                 <a href="https://css-tricks.com/debouncing-throttling-explained-examples/">
-                    Что такое throttling и debouncing (на английском языке)
+                    на английском языке
                 </a>
             </li>
             <li class="next">
                 <a href="https://artemdemo.me/blog/throttling-vs-debouncing/">
-                    Что такое throttling и debouncing (на русском языке)
+                    на русском языке
+                </a>
+            </li>
+            <li class="next">
+                <a href="https://www.softwariness.com/articles/monotonic-clocks-windows-and-posix/">
+                    Monotonic Clocks in Windows and POSIX
+                </a>
+            </li>
+            <li class="next">
+                <a href="http://doc.ntp.org/4.1.0/ntpd.htm">
+                    How ntpd operates
                 </a>
             </li>
         </ul>
