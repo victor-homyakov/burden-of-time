@@ -105,7 +105,7 @@
         <h2>Что я увидел</h2>
         <ol>
             <li class="next">
-                В разных проектах возникают похожие задачи по работе с датой/временем
+                В разных проектах &mdash; похожие задачи по работе с датой/временем
             </li>
             <li class="next">
                 Также возникают похожие задачи вызова асинхронных/удалённых частей кода (AJAX, запросы в БД и т.п.)
@@ -115,6 +115,7 @@
             </li>
             <li class="next">
                 И допускают одинаковые ошибки
+                <img src="pictures/jackie-chan.png" class="place right bottom" alt="WTF" style="width: 40%;">
             </li>
         </ol>
     </div>
@@ -123,7 +124,7 @@
 <!-- какую пользу получит слушатель от моего выступления -->
 <section class="slide">
     <div>
-        <h2>О чём я хочу рассказать</h2>
+        <h2>О чём хочу рассказать</h2>
         <ul>
             <li class="next">
                 О повторяющихся паттернах при работе с датой/временем/асинхронным кодом
@@ -140,7 +141,7 @@
 
 <!-- основная часть -->
 
-<section class="slide">
+<section class="slide section">
     <div>
         <h2 class="shout shrink">
             Часть первая.<br>
@@ -158,23 +159,61 @@
 
 <section class="slide">
     <div>
+        TODO Слайд с картинкой про акции
+        Локальный сайт с промо-акцией в полночь
+    </div>
+</section>
+
+<section class="slide">
+    <div>
         <h2>Пример: взаимозависимые cookies</h2>
         <pre>
-<code class="hljs javascript">const expires1 = Date.now() + 100500;
+<code class="hljs javascript">const expires1 = getDay(Date.now()) + 7;
 setCookie1(expires1);
-const expires2 = Date.now() + 100500;
+
+const expires2 = getDay(Date.now()) + 7;
 setCookie2(expires2);</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Пример: взаимозависимые cookies</h2>
+        <pre>
+<code class="hljs javascript">const expires1 = getDay(Date.now()) + 7;
+setCookie1(expires1);
+// 2019-05-30
+const expires2 = getDay(Date.now()) + 7;
+setCookie2(expires2);
+// 2019-05-31</code>
         </pre>
         <p class="next">
             <code>Date.now()</code> &mdash; не константа!
         </p>
         <p class="place right bottom">
-            <img src="pictures/trollface.png" alt="" class="place right bottom">
+            <img src="pictures/trollface.png" alt="" class="place right bottom" style="margin-bottom: 20px;">
             Проблемы, тимлид?
         </p>
     </div>
 </section>
 
+<section class="slide">
+    <div>
+        <h2>Пример: взаимозависимые cookies</h2>
+        <pre>
+<code class="hljs javascript">const now = Date.now();
+const expires1 = getDay(now) + 7;
+setCookie1(expires1);
+// 2019-05-30
+const expires2 = getDay(now) + 7;
+setCookie2(expires2);
+// 2019-05-30</code>
+        </pre>
+    </div>
+</section>
+
+<!--
 <section class="slide">
     <div>
         <h2>Сценарии</h2>
@@ -187,7 +226,7 @@ setCookie2(expires2);</code>
                 Локальный сайт&hellip;<br>
                 <span class="next">с промо-акцией в полночь</span>
             </li>
-            <!-- спросить, кто читает Хабр -->
+            &lt;!&ndash; спросить, кто читает Хабр &ndash;&gt;
             <li class="next">
                 Страничка для своего кота&hellip;<br>
                 <span class="next">хабраэффект</span>
@@ -195,6 +234,7 @@ setCookie2(expires2);</code>
         </ul>
     </div>
 </section>
+-->
 
 <section class="slide">
     <div>
@@ -221,10 +261,22 @@ setCookie2(expires2);</code>
     <div>
         <h2>Логируем транзакции</h2>
         <pre>
+<code class="hljs javascript">const start = Date.now();
+transaction();
+const finish = Date.now();
+log(`Транзакция длилась ${finish - start}мс`);</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Логируем транзакции</h2>
+        <pre>
 <code class="hljs javascript">const start = Date.now(); // 1550000000000
 transaction();
 const finish = Date.now(); // 1549999999000
-log(`Транзакция длилась ${finish - start}мс`); // Транзакция длилась -1000мс</code>
+log(`Транзакция длилась ${finish - start}мс`); // Транзакция длилась <mark>-1000мс</mark></code>
         </pre>
     </div>
 </section>
@@ -232,37 +284,40 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
 <section class="slide">
     <div>
         <h2>JavaScript</h2>
-        <p>
-            <code>Date.now()</code> &mdash; неравномерный и немонотонный
-        </p>
-        <p class="next">
-            NTP daemon может
-            <a href="https://serverfault.com/questions/94683/will-ntp-drift-the-clock-backwards">
-                замедлять и отматывать назад
-            </a>
-            часы
-        </p>
-        <p class="next">
-            Пользователь может сам менять время
-        </p>
-        <p class="next">
-            Надо использовать <code>performance.now()</code>
-        </p>
+        <ul>
+            <li>
+                <code>Date.now()</code> &mdash; неравномерный и немонотонный
+            </li>
+            <li class="next">
+                NTP daemon может
+                <a href="https://serverfault.com/questions/94683/will-ntp-drift-the-clock-backwards">
+                    замедлять и отматывать назад
+                </a> время
+            </li>
+            <li class="next">
+                Пользователь может сам менять время
+            </li>
+            <li class="next">
+                Есть <code>performance.now()</code>
+            </li>
+        </ul>
     </div>
 </section>
 
 <section class="slide">
     <div>
         <h2>Бэкэнд</h2>
-        <p>
-            Аналогичная проблема, гуглить "consistent monotonic clock"
-        </p>
-        <p class="next">
-            Для Java:
-            <a href="https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/System.html#nanoTime()">
-                System.nanoTime()
-            </a>
-        </p>
+        <ul>
+            <li>
+                Аналогичная проблема, гуглить "consistent monotonic clock"
+            </li>
+            <li class="next">
+                Для Java есть
+                <a href="https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/System.html#nanoTime()">
+                    System.nanoTime()
+                </a>
+            </li>
+        </ul>
     </div>
 </section>
 
@@ -278,7 +333,7 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
     </div>
 </section>
 
-<section class="slide">
+<section class="slide section">
     <div>
         <h2 class="shout shrink">
             Часть вторая.<br>
@@ -296,7 +351,14 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
 
 <section class="slide">
     <div>
-        <h2>Пример: два запроса</h2>
+        <h2>Пример: автокомплит</h2>
+        TODO видео саджеста
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Два запроса</h2>
         <pre>
 <code class="hljs javascript">ajax(query1, callback);
 ajax(query2, callback);</code>
@@ -317,14 +379,7 @@ ajax(query2, callback);</code>
 
 <code class="next">query1 &rarr; query2 &rarr; callback(response2) &rarr; callback(response1)</code>
         </pre>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <p>
-            TODO видео саджеста
-        </p>
+        TODO красивые диаграммы выполнения
     </div>
 </section>
 
@@ -389,6 +444,12 @@ var suggestions = keyups.flatMapLatest(ajax); // игнорируем стары
 
 <section class="slide">
     <div>
+        TODO видео тормозящего скролла на сайте
+    </div>
+</section>
+
+<section class="slide">
+    <div>
         <h2>Что можно улучшить в этом коде?</h2>
         <pre>
 <code class="hljs javascript">const scrollHandler = function() {/*код*/};
@@ -404,17 +465,18 @@ window.addEventListener('scroll', scrollHandler);</code>
             События, которые возникают слишком часто:
         </p>
         <ul>
-            <li class="next">resize</li>
             <li class="next">scroll</li>
             <li class="next">mousemove</li>
+            <li class="next">resize</li>
         </ul>
     </div>
 </section>
 
 <section class="slide">
     <div>
+        <h2>throttle</h2>
         <figure>
-            <img src="pictures/throttling-01.png" alt="throttle" style="width: 100%;">
+            <img src="pictures/throttling-01.png" alt="throttle" class="place" style="width: 60%;">
         </figure>
     </div>
 </section>
@@ -433,8 +495,9 @@ window.addEventListener('scroll', scrollHandler);</code>
 
 <section class="slide">
     <div>
+        <h2>debounce</h2>
         <figure>
-            <img src="pictures/debounce.png" alt="debounce" style="width: 100%;">
+            <img src="pictures/debounce.png" alt="debounce" class="place" style="width: 60%;">
         </figure>
     </div>
 </section>
@@ -443,7 +506,10 @@ window.addEventListener('scroll', scrollHandler);</code>
     <div>
         <h2>Для scroll нужен throttle</h2>
         <pre>
-<code class="hljs javascript">const scrollHandler = _.throttle(function() {/*код*/}, 200 /*миллисекунд*/);
+<code class="hljs javascript">const scrollHandler = _.throttle(
+    function() {/*код*/},
+    200 /*миллисекунд*/
+);
 window.addEventListener('scroll', scrollHandler);</code>
         </pre>
     </div>
@@ -463,7 +529,7 @@ window.addEventListener('scroll', scrollHandler);</code>
     scrollHandler() {/* код */}
 
     destroy() {
-        this._scrollHandler.cancel(); // убираем за собой
+        <mark>this._scrollHandler.cancel(); // убираем за собой</mark>
     }
 }</code>
         </pre>
@@ -483,7 +549,7 @@ window.addEventListener('scroll', scrollHandler);</code>
                 из <code>setTimeout()</code>, <code>setInterval()</code>
             </li>
             <li class="next">
-                из <code>requestAnimationFrame()</code>, <code>requestIdleCallback</code>
+                из <code>requestAnimationFrame()</code>, <code>requestIdleCallback()</code>
             </li>
             <li class="next">
                 из незавершённых запросов AJAX/fetch
@@ -509,7 +575,7 @@ window.addEventListener('scroll', scrollHandler);</code>
     </div>
 </section>
 
-<section class="slide">
+<section class="slide section">
     <div>
         <h2 class="shout shrink">
             Часть третья.<br>
@@ -529,7 +595,8 @@ window.addEventListener('scroll', scrollHandler);</code>
     <div>
         <h2>Что в этом коде можно ускорить?</h2>
         <pre>
-<code class="hljs javascript">query1()
+<code class="hljs javascript">prepare()
+    .then(() => query1())
     .then(() => query2())
     .then(() => {
         // обработка ответов
@@ -539,7 +606,8 @@ window.addEventListener('scroll', scrollHandler);</code>
             Иногда код запросов можно распараллелить
         </p>
     </div>
-    <img src="pictures/thinking-face.png" alt="" class="place left bottom" style="height: 35%; left: 5%;">
+    <img src="pictures/thinking-face.png" alt="" class="place right bottom"
+        style="height: 35%; right: 15%; transform: scaleX(-1);">
 </section>
 
 <section class="slide">
@@ -577,6 +645,26 @@ window.addEventListener('scroll', scrollHandler);</code>
     </div>
 </section>
 
+<section class="slide">
+    <div>
+        <h2>Распараллелим независимые запросы</h2>
+        <pre>
+<code class="hljs javascript">Promise.all([query1(), query2()])
+    .then(() => {
+        // обработка ответов
+    });</code>
+        </pre>
+        <ul>
+            <li class="next">
+                выполняются параллельно
+            </li>
+            <li class="next">
+                при ошибках быстрее упадём
+            </li>
+        </ul>
+    </div>
+</section>
+
 <!-- 3.2 -->
 <section class="slide">
     <div>
@@ -601,45 +689,53 @@ const data2 = await query2();</code>
 <code class="hljs javascript">const data1 = await query1(); // ждём выполнения первого запроса
 const data2 = await query2(); // ждём выполнения второго запроса</code>
         </pre>
+        <pre class="next">
+<code class="hljs javascript">prepare()
+    .then(() => query1())
+    .then(() => query2())
+    .then(() => {
+        // обработка ответов
+    });</code>
+        </pre>
     </div>
 </section>
 
 <section class="slide">
     <div>
-        <h2>Если запросы &mdash; независимые</h2>
+        <h2>Распараллелим независимые запросы</h2>
         <pre>
 <code class="hljs javascript">const [data1, data2] = await Promise.all(
     [query1(), query2()]
 );</code>
         </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Мораль</h2>
         <ul>
-            <li class="next">
-                выполняются параллельно
+            <li>
+                Проще написать <code>await</code>, чем <code>.then().then()</code>
             </li>
             <li class="next">
-                при ошибках быстрее упадём
+                Проще внести незапланированную синхронизацию
+            </li>
+            <li class="next">
+                Следите за кодом &mdash; возможно, ваши <code>await</code>можно распараллелить!
             </li>
         </ul>
     </div>
 </section>
 
-<section class="slide">
+<section class="slide section">
     <div>
-        <p>
-            Проще написать <code>await</code>, чем <code>.then().then()</code>
-        </p>
-        <p class="next">
-            Проще внести незапланированную синхронизацию
-        </p>
-        <p class="next">
-            Следите за кодом &mdash; возможно, ваши <code>await</code>можно распараллелить!
-        </p>
+        <h2 class="shout shrink">Материалы</h2>
     </div>
 </section>
 
 <section class="slide">
     <div>
-        <h2>Материалы</h2>
         <ul>
             <li>
                 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all">
@@ -683,7 +779,7 @@ const data2 = await query2(); // ждём выполнения второго з
     </div>
 </section>
 
-<section class="slide">
+<section class="slide section">
     <div>
         <h2 class="shout shrink">Заключение</h2>
     </div>
@@ -693,13 +789,13 @@ const data2 = await query2(); // ждём выполнения второго з
     <div>
         <ul>
             <li>
-                Предупреждён &mdash; значит, вооружён. Разрабатывая аналогичную функциональность, сразу избегайте
-                ошибок.
+                Изучайте качественный open-source (Lodash, RxJS и т.п.)
             </li>
             <li class="next">
-                Изучение open-source библиотек (Lodash, RxJS и т.п.) расширяет сознание.
-                Возможно, прямо сейчас вы изобретаете велосипед.
-                Нельзя красиво решить проблему, если не знаешь о самом существовании такого класса проблем.
+                Избегайте типичных ошибок
+            </li>
+            <li class="next">
+                Не изобретайте велосипед
             </li>
         </ul>
     </div>
