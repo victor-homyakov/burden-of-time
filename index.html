@@ -307,9 +307,9 @@ log(`Транзакция длилась ${finish - start}мс`);</code>
     <div>
         <h2>Логируем транзакции</h2>
         <pre>
-<code class="hljs javascript">const start = Date.now(); // 1550000000000
+<code class="hljs javascript">const start = Date.now();                      // 1550000000000
 transaction();
-const finish = Date.now(); // 1549999999000
+const finish = Date.now();                     // 1549999999000
 log(`Транзакция длилась ${finish - start}мс`); // Транзакция длилась <mark>-1000мс</mark></code>
         </pre>
     </div>
@@ -385,7 +385,7 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
 
 <section class="slide">
     <div>
-        <h2>Пример: автокомплит</h2>
+        <h2>Пример: suggest</h2>
         <video src="pictures/suggest-good.m4v" autoplay loop muted style="width: 100%"></video>
     </div>
 </section>
@@ -414,7 +414,7 @@ ajax(query2, callback);</code>
 
 <section class="slide">
     <div>
-        <h2>Плохой автокомплит</h2>
+        <h2>Плохой suggest</h2>
         <video src="pictures/suggest-bad.m4v" autoplay loop muted style="width: 100%"></video>
     </div>
 </section>
@@ -495,7 +495,8 @@ var suggestions = keyups.flatMapLatest(ajax); // игнорируем стары
 
 <section class="slide">
     <div>
-        TODO видео тормозящего скролла на сайте
+        <h2>Плохой scroll</h2>
+        <video src="pictures/janky-scroll.mp4" autoplay loop muted style="width: 100%; height: 100%;"></video>
     </div>
 </section>
 
