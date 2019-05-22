@@ -278,6 +278,12 @@ setCookie2(expires2);
                 В одном методе должен быть только один <code>Date.now()</code> или <code>new Date()</code>
             </li>
             <li class="next">
+                Два подряд <code>Date.now()</code> или <code>new Date()</code> могут дать разное время
+            </li>
+            <li class="next">
+                Два подряд <code>Date.now()</code> или <code>new Date()</code> могут дать одинаковое время
+            </li>
+            <li class="next">
                 Связанные по смыслу переменные должны вычисляться из одной даты
             </li>
         </ul>
@@ -307,9 +313,9 @@ log(`Транзакция длилась ${finish - start}мс`);</code>
     <div>
         <h2>Логируем транзакции</h2>
         <pre>
-<code class="hljs javascript">const start = Date.now(); // 1550000000000
+<code class="hljs javascript">const start = Date.now();                      // 1550000000000
 transaction();
-const finish = Date.now(); // 1549999999000
+const finish = Date.now();                     // 1549999999000
 log(`Транзакция длилась ${finish - start}мс`); // Транзакция длилась <mark>-1000мс</mark></code>
         </pre>
     </div>
@@ -384,15 +390,24 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
 </section>
 
 <section class="slide">
-    <div>
-        <h2>Пример: автокомплит</h2>
-        TODO видео саджеста
+    <div style="overflow: hidden;">
+        <h2>Пример: suggest</h2>
+        <video src="pictures/suggest-good.m4v" autoplay loop muted style="width: 100%"></video>
     </div>
 </section>
 
 <section class="slide">
     <div>
-        <h2>Два запроса</h2>
+        <h2>Последовательные запросы</h2>
+        <pre>
+<code class="hljs javascript">ajax(query1, callback);</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Последовательные запросы</h2>
         <pre>
 <code class="hljs javascript">ajax(query1, callback);
 ajax(query2, callback);</code>
@@ -404,16 +419,24 @@ ajax(query2, callback);</code>
 </section>
 
 <section class="slide">
+    <div style="overflow: hidden;">
+        <h2>Плохой suggest</h2>
+        <video src="pictures/suggest-bad.m4v" autoplay loop muted style="width: 100%"></video>
+    </div>
+</section>
+
+<section class="slide">
     <div>
         <h2>Варианты выполнения</h2>
-        <pre>
-<code class="next">query1 &rarr; callback(response1) &rarr; query2 &rarr; callback(response2)</code>
-
-<code class="next">query1 &rarr; query2 &rarr; callback(response1) &rarr; callback(response2)</code>
-
-<code class="next">query1 &rarr; query2 &rarr; callback(response2) &rarr; callback(response1)</code>
-        </pre>
-        TODO красивые диаграммы выполнения
+        <p>
+            <img src="pictures/ajax-sequence-1.png" class="next" alt="Sequence 1">
+        </p>
+        <p>
+            <img src="pictures/ajax-sequence-2.png" class="next" alt="Sequence 2">
+        </p>
+        <p>
+            <img src="pictures/ajax-sequence-3.png" class="next" alt="Sequence 3">
+        </p>
     </div>
 </section>
 
@@ -477,8 +500,9 @@ var suggestions = keyups.flatMapLatest(ajax); // игнорируем стары
 </section>
 
 <section class="slide">
-    <div>
-        TODO видео тормозящего скролла на сайте
+    <div style="overflow: hidden;">
+        <h2>Плохой scroll</h2>
+        <video src="pictures/janky-scroll.mp4" autoplay loop muted style="width: 100%; height: 100%;"></video>
     </div>
 </section>
 
@@ -658,10 +682,16 @@ window.addEventListener('scroll', scrollHandler);</code>
                 <code>Promise.race()</code>
             </li>
             <li class="next">
-                чего-то не хватает
+                Маловато будет!<br>
+                <img src="pictures/malovato.png" alt="Маловато!" class="place- right-" style="width: 300px; margin-top: 20px;">
             </li>
         </ul>
-        <p class="next">
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
             <a href="https://caolan.github.io/async/">Async</a>:
             библиотека для удобного планирования задач
         </p>
@@ -711,6 +741,16 @@ window.addEventListener('scroll', scrollHandler);</code>
         <h2>Используя await, главное &mdash; не перестараться</h2>
         <pre>
 <code class="hljs javascript">const data1 = await query1();
+const data2 = await query2();</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Используя await, главное &mdash; не перестараться</h2>
+        <pre>
+<code class="hljs javascript">const data1 = await query1(); // ждём выполнения первого запроса
 const data2 = await query2();</code>
         </pre>
     </div>
@@ -807,6 +847,21 @@ const data2 = await query2(); // ждём выполнения второго з
             <li class="next">
                 <a href="http://doc.ntp.org/4.1.0/ntpd.htm">
                     How ntpd operates
+                </a>
+            </li>
+            <li class="next">
+                <a href="https://habr.com/ru/company/mailru/blog/327264/">
+                    Из-за коррекции времени ntpd упал кластер Hadoop
+                </a>
+            </li>
+            <li class="next">
+                <a href="https://blog.cloudflare.com/how-and-why-the-leap-second-affected-cloudflare-dns/">
+                    Из-за немонотонности и високосной секунды упал Cloudflare DNS
+                </a>
+            </li>
+            <li class="next">
+                <a href="https://jerom.livejournal.com/188412.html">
+                    Баг ВК с кукой авторизации на час
                 </a>
             </li>
         </ul>
