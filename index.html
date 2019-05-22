@@ -159,14 +159,47 @@
 
 <section class="slide">
     <div>
-        TODO Слайд с картинкой про акции
-        Локальный сайт с промо-акцией в полночь
+        <h2>Пример: запрос в базу за вчера</h2>
+        <pre>
+<code class="hljs javascript">const startDate = new Date();
+startDate.setDate(startDate.getDate() - 1); // вчера
+
+const endDate = new Date();
+
+queryDatabase(startDate, endDate);
+// запрос за дату date >= вчера && date < сегодня</code>
+        </pre>
     </div>
 </section>
 
 <section class="slide">
     <div>
-        <h2>Пример: взаимозависимые cookies</h2>
+        <h2>Пример: запрос в базу за вчера?</h2>
+        <pre>
+<code class="hljs javascript">const startDate = new Date();               // 2019-05-22
+startDate.setDate(startDate.getDate() - 1); // 2019-05-21
+
+const endDate = new Date();                 // 2019-05-23
+
+queryDatabase(startDate, endDate);
+// запрос за дату <mark>date >= 2019-05-21 && date < 2019-05-23</mark></code>
+        </pre>
+        <p class="place right bottom">
+            <img src="pictures/trollface.png" alt="" class="place right bottom" style="margin-bottom: 20px;">
+            Проблемы, тимлид?
+        </p>
+    </div>
+</section>
+
+<!--
+<section class="slide">
+    <h2 style="color: white; margin-left: 70px;">Промо-акция!!! Промо-акция!!! Промо-акция!!!</h2>
+    <img src="pictures/promo-big-1.jpg" alt="Promo" class="cover">
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Ставим cookies</h2>
         <pre>
 <code class="hljs javascript">const expires1 = getDay(Date.now()) + 7;
 setCookie1(expires1);
@@ -179,7 +212,7 @@ setCookie2(expires2);</code>
 
 <section class="slide">
     <div>
-        <h2>Пример: взаимозависимые cookies</h2>
+        <h2>Ставим cookies</h2>
         <pre>
 <code class="hljs javascript">const expires1 = getDay(Date.now()) + 7;
 setCookie1(expires1);
@@ -200,7 +233,7 @@ setCookie2(expires2);
 
 <section class="slide">
     <div>
-        <h2>Пример: взаимозависимые cookies</h2>
+        <h2>Ставим cookies</h2>
         <pre>
 <code class="hljs javascript">const now = Date.now();
 const expires1 = getDay(now) + 7;
@@ -210,8 +243,10 @@ const expires2 = getDay(now) + 7;
 setCookie2(expires2);
 // 2019-05-30</code>
         </pre>
+        TODO можно переделать на запрос к базе between date1 and date2
     </div>
 </section>
+-->
 
 <!--
 <section class="slide">
@@ -241,7 +276,7 @@ setCookie2(expires2);
         <h2>Мораль</h2>
         <ul>
             <li>
-                В одном методе должен быть только один <code>Date.now()</code>
+                В одном методе должен быть только один <code>Date.now()</code> или <code>new Date()</code>
             </li>
             <li class="next">
                 Связанные по смыслу переменные должны вычисляться из одной даты
