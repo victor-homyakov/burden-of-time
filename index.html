@@ -243,7 +243,6 @@ const expires2 = getDay(now) + 7;
 setCookie2(expires2);
 // 2019-05-30</code>
         </pre>
-        TODO можно переделать на запрос к базе between date1 and date2
     </div>
 </section>
 -->
@@ -387,13 +386,22 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
 <section class="slide">
     <div>
         <h2>Пример: автокомплит</h2>
-        TODO видео саджеста
+        <video src="pictures/suggest-good.m4v" autoplay loop muted style="width: 100%"></video>
     </div>
 </section>
 
 <section class="slide">
     <div>
-        <h2>Два запроса</h2>
+        <h2>Последовательные запросы</h2>
+        <pre>
+<code class="hljs javascript">ajax(query1, callback);</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Последовательные запросы</h2>
         <pre>
 <code class="hljs javascript">ajax(query1, callback);
 ajax(query2, callback);</code>
@@ -406,15 +414,23 @@ ajax(query2, callback);</code>
 
 <section class="slide">
     <div>
+        <h2>Плохой автокомплит</h2>
+        <video src="pictures/suggest-bad.m4v" autoplay loop muted style="width: 100%"></video>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
         <h2>Варианты выполнения</h2>
-        <pre>
-<code class="next">query1 &rarr; callback(response1) &rarr; query2 &rarr; callback(response2)</code>
-
-<code class="next">query1 &rarr; query2 &rarr; callback(response1) &rarr; callback(response2)</code>
-
-<code class="next">query1 &rarr; query2 &rarr; callback(response2) &rarr; callback(response1)</code>
-        </pre>
-        TODO красивые диаграммы выполнения
+        <p>
+            <img src="pictures/ajax-sequence-1.png" class="next" alt="Sequence 1">
+        </p>
+        <p>
+            <img src="pictures/ajax-sequence-2.png" class="next" alt="Sequence 2">
+        </p>
+        <p>
+            <img src="pictures/ajax-sequence-3.png" class="next" alt="Sequence 3">
+        </p>
     </div>
 </section>
 
