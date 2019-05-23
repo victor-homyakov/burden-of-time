@@ -278,6 +278,12 @@ setCookie2(expires2);
                 В одном методе должен быть только один <code>Date.now()</code> или <code>new Date()</code>
             </li>
             <li class="next">
+                Два подряд <code>Date.now()</code> или <code>new Date()</code> могут дать разное время
+            </li>
+            <li class="next">
+                Два подряд <code>Date.now()</code> или <code>new Date()</code> могут дать одинаковое время
+            </li>
+            <li class="next">
                 Связанные по смыслу переменные должны вычисляться из одной даты
             </li>
         </ul>
@@ -841,6 +847,21 @@ const data2 = await query2(); // ждём выполнения второго з
             <li class="next">
                 <a href="http://doc.ntp.org/4.1.0/ntpd.htm">
                     How ntpd operates
+                </a>
+            </li>
+            <li class="next">
+                <a href="https://habr.com/ru/company/mailru/blog/327264/">
+                    Из-за коррекции времени ntpd упал кластер Hadoop
+                </a>
+            </li>
+            <li class="next">
+                <a href="https://blog.cloudflare.com/how-and-why-the-leap-second-affected-cloudflare-dns/">
+                    Из-за немонотонности и високосной секунды упал Cloudflare DNS
+                </a>
+            </li>
+            <li class="next">
+                <a href="https://jerom.livejournal.com/188412.html">
+                    Баг ВК с кукой авторизации на час
                 </a>
             </li>
         </ul>
