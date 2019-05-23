@@ -384,7 +384,7 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
 </section>
 
 <section class="slide">
-    <div>
+    <div style="overflow: hidden;">
         <h2>Пример: suggest</h2>
         <video src="pictures/suggest-good.m4v" autoplay loop muted style="width: 100%"></video>
     </div>
@@ -413,7 +413,7 @@ ajax(query2, callback);</code>
 </section>
 
 <section class="slide">
-    <div>
+    <div style="overflow: hidden;">
         <h2>Плохой suggest</h2>
         <video src="pictures/suggest-bad.m4v" autoplay loop muted style="width: 100%"></video>
     </div>
@@ -494,7 +494,7 @@ var suggestions = keyups.flatMapLatest(ajax); // игнорируем стары
 </section>
 
 <section class="slide">
-    <div>
+    <div style="overflow: hidden;">
         <h2>Плохой scroll</h2>
         <video src="pictures/janky-scroll.mp4" autoplay loop muted style="width: 100%; height: 100%;"></video>
     </div>
@@ -676,10 +676,16 @@ window.addEventListener('scroll', scrollHandler);</code>
                 <code>Promise.race()</code>
             </li>
             <li class="next">
-                чего-то не хватает
+                Маловато будет!<br>
+                <img src="pictures/malovato.png" alt="Маловато!" class="place- right-" style="width: 300px; margin-top: 20px;">
             </li>
         </ul>
-        <p class="next">
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <p>
             <a href="https://caolan.github.io/async/">Async</a>:
             библиотека для удобного планирования задач
         </p>
@@ -729,6 +735,16 @@ window.addEventListener('scroll', scrollHandler);</code>
         <h2>Используя await, главное &mdash; не перестараться</h2>
         <pre>
 <code class="hljs javascript">const data1 = await query1();
+const data2 = await query2();</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Используя await, главное &mdash; не перестараться</h2>
+        <pre>
+<code class="hljs javascript">const data1 = await query1(); // ждём выполнения первого запроса
 const data2 = await query2();</code>
         </pre>
     </div>
