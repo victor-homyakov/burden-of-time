@@ -275,13 +275,19 @@ setCookie2(expires2);
         <h2>Мораль</h2>
         <ul>
             <li>
+                При двух вызовах подряд <code>Date.now()</code> или <code>new Date()</code> может быть&hellip;
+            </li>
+            <li class="next">
+                <code>Date.now() === Date.now()</code>
+            </li>
+            <li class="next">
+                <code>Date.now() < Date.now()</code>
+            </li>
+            <li class="next">
+                <code>Date.now() > Date.now()</code>
+            </li>
+            <li class="next">
                 В одном методе должен быть только один <code>Date.now()</code> или <code>new Date()</code>
-            </li>
-            <li class="next">
-                Два подряд <code>Date.now()</code> или <code>new Date()</code> могут дать разное время
-            </li>
-            <li class="next">
-                Два подряд <code>Date.now()</code> или <code>new Date()</code> могут дать одинаковое время
             </li>
             <li class="next">
                 Связанные по смыслу переменные должны вычисляться из одной даты
