@@ -193,62 +193,6 @@ queryDatabase(startDate, endDate);
 
 <!--
 <section class="slide">
-    <h2 style="color: white; margin-left: 70px;">Промо-акция!!! Промо-акция!!! Промо-акция!!!</h2>
-    <img src="pictures/promo-big-1.jpg" alt="Promo" class="cover">
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Ставим cookies</h2>
-        <pre>
-<code class="hljs javascript">const expires1 = getDay(Date.now()) + 7;
-setCookie1(expires1);
-
-const expires2 = getDay(Date.now()) + 7;
-setCookie2(expires2);</code>
-        </pre>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Ставим cookies</h2>
-        <pre>
-<code class="hljs javascript">const expires1 = getDay(Date.now()) + 7;
-setCookie1(expires1);
-// 2019-05-30
-const expires2 = getDay(Date.now()) + 7;
-setCookie2(expires2);
-// 2019-05-31</code>
-        </pre>
-        <p class="next">
-            <code>Date.now()</code> &mdash; не константа!
-        </p>
-        <p class="place right bottom">
-            <img src="pictures/trollface.png" alt="" class="place right bottom" style="margin-bottom: 20px;">
-            Проблемы, тимлид?
-        </p>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Ставим cookies</h2>
-        <pre>
-<code class="hljs javascript">const now = Date.now();
-const expires1 = getDay(now) + 7;
-setCookie1(expires1);
-// 2019-05-30
-const expires2 = getDay(now) + 7;
-setCookie2(expires2);
-// 2019-05-30</code>
-        </pre>
-    </div>
-</section>
--->
-
-<!--
-<section class="slide">
     <div>
         <h2>Сценарии</h2>
         <ul>
@@ -275,19 +219,10 @@ setCookie2(expires2);
         <h2>Мораль</h2>
         <ul>
             <li>
-                При двух вызовах подряд <code>Date.now()</code> или <code>new Date()</code> может быть&hellip;
+                <code>Date.now() !== Date.now()</code>
             </li>
             <li class="next">
-                <code>Date.now() === Date.now()</code>
-            </li>
-            <li class="next">
-                <code>Date.now() < Date.now()</code>
-            </li>
-            <li class="next">
-                <code>Date.now() > Date.now()</code>
-            </li>
-            <li class="next">
-                В одном методе должен быть только один <code>Date.now()</code> или <code>new Date()</code>
+                Один метод &mdash; один <code>Date.now()</code> или <code>new Date()</code>
             </li>
             <li class="next">
                 Связанные по смыслу переменные должны вычисляться из одной даты
@@ -329,10 +264,13 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
 
 <section class="slide">
     <div>
-        <h2>JavaScript</h2>
+        <h2>Мораль</h2>
         <ul>
             <li>
-                <code>Date.now()</code> &mdash; неравномерный и немонотонный
+                <code>Date.now()</code> &mdash; неравномерный
+            </li>
+            <li class="next">
+                <code>Date.now()</code> &mdash; немонотонный
             </li>
             <li class="next">
                 NTP daemon может
@@ -344,7 +282,7 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
                 Пользователь может сам менять время
             </li>
             <li class="next">
-                Есть <code>performance.now()</code>
+                Используем <code>performance.now()</code>
             </li>
         </ul>
     </div>
@@ -358,7 +296,7 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
                 Аналогичная проблема, гуглить "consistent monotonic clock"
             </li>
             <li class="next">
-                Для Java есть
+                В Java есть
                 <a href="https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/System.html#nanoTime()">
                     System.nanoTime()
                 </a>
@@ -375,6 +313,10 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
         <img src="pictures/clock-9.jpg" style="width: 31%" alt="Clock 9" class="next">
         <p class="next">
             Вектор времени или счётчики событий
+        </p>
+        <p class="next">
+            Фронт + бэк = распределённая система
+            <!-- Логируем и клиентское и серверное время, не путаем времена в логах -->
         </p>
     </div>
 </section>
@@ -630,10 +572,10 @@ window.addEventListener('scroll', scrollHandler);</code>
         </p>
         <ul>
             <li class="next">
-                вызов кода мёртвого объекта
+                утечки памяти (живой объект держит ссылку)
             </li>
             <li class="next">
-                утечки памяти
+                вызов кода мёртвого объекта
             </li>
         </ul>
     </div>
