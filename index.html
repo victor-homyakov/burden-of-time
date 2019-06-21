@@ -153,7 +153,7 @@
 <!-- 1.1 -->
 <section class="slide">
     <div>
-        <h2 class="shout shrink">1.1. Время не стоит на месте</h2>
+        <h2 class="shout shrink">1.1 Время не стоит на месте</h2>
     </div>
 </section>
 
@@ -234,7 +234,7 @@ queryDatabase(startDate, endDate);
 <!-- 1.2 -->
 <section class="slide">
     <div>
-        <h2 class="shout shrink">1.2. Измерение интервалов и логирование событий</h2>
+        <h2 class="shout shrink">1.2 Измерение интервалов и логирование событий</h2>
     </div>
 </section>
 
@@ -688,8 +688,8 @@ window.addEventListener('scroll', scrollHandler);</code>
     <div>
         <h2>Используя await, главное &mdash; не перестараться</h2>
         <pre>
-<code class="hljs javascript">const data1 = await query1();
-const data2 = await query2();</code>
+<code class="hljs javascript">const url = await browser.getUrl();
+const href = await browser.getAttribute(selector, 'href');</code>
         </pre>
     </div>
 </section>
@@ -698,8 +698,8 @@ const data2 = await query2();</code>
     <div>
         <h2>Используя await, главное &mdash; не перестараться</h2>
         <pre>
-<code class="hljs javascript">const data1 = await query1(); // ждём выполнения первого запроса
-const data2 = await query2();</code>
+<code class="hljs javascript">const url = await browser.getUrl();                        // ждём выполнения
+const href = await browser.getAttribute(selector, 'href');</code>
         </pre>
     </div>
 </section>
@@ -708,16 +708,14 @@ const data2 = await query2();</code>
     <div>
         <h2>Используя await, главное &mdash; не перестараться</h2>
         <pre>
-<code class="hljs javascript">const data1 = await query1(); // ждём выполнения первого запроса
-const data2 = await query2(); // ждём выполнения второго запроса</code>
+<code class="hljs javascript">const url = await browser.getUrl();                        // ждём выполнения
+const href = await browser.getAttribute(selector, 'href'); // ждём выполнения</code>
         </pre>
         <pre class="next">
-<code class="hljs javascript">prepare()
-    .then(() => query1())
-    .then(() => query2())
-    .then(() => {
-        // обработка ответов
-    });</code>
+<code class="hljs javascript">browser.getUrl()
+    .then(result => url = result)
+    .then(() => browser.getAttribute(selector, 'href'))
+    .then(result => href = result);</code>
         </pre>
     </div>
 </section>
@@ -726,8 +724,8 @@ const data2 = await query2(); // ждём выполнения второго з
     <div>
         <h2>Распараллелим независимые запросы</h2>
         <pre>
-<code class="hljs javascript">const [data1, data2] = await Promise.all(
-    [query1(), query2()]
+<code class="hljs javascript">const [url, href] = await Promise.all(
+    [browser.getUrl(), browser.getAttribute(selector, 'href')]
 );</code>
         </pre>
     </div>
