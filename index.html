@@ -443,10 +443,55 @@ var suggestions = keyups.flatMapLatest(ajax); // игнорируем стары
 <!-- 2.2 -->
 <section class="slide">
     <div>
-        <h2 class="shout shrink">2.2 Есть ли жизнь после destroy?</h2>
+        <h2 class="shout shrink">2.2 Есть ли state после unmount?</h2>
     </div>
 </section>
 
+<section class="slide">
+    <div>
+        <h2>Что не так в этом коде?</h2>
+        <pre>
+<code class="hljs javascript">class MapControls extends React.PureComponent {
+    // ...
+    onLocationError() {
+        // Показываем плашку ошибки
+        this.setState({ locationFailed: true });
+
+        // Убираем плашку ошибки через 3 секунды
+        setTimeout(() => {
+            this.setState({ locationFailed: false });
+        }, 3000);
+    }
+}</code>
+        </pre>
+    </div>
+    <img src="pictures/thinking-face.png" alt="" class="place right bottom"
+        style="height: 35%; right: 15%; transform: scaleX(-1);">
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что не так в этом коде?</h2>
+        <pre>
+<code class="hljs javascript">class MapControls extends React.PureComponent {
+    // ...
+    onLocationError() {
+        // Показываем плашку ошибки
+        this.setState({ locationFailed: true });
+
+        // Убираем плашку ошибки через 3 секунды
+        <mark>setTimeout(() => {</mark>
+            <mark>this.setState({ locationFailed: false });</mark>
+        <mark>}, 3000);</mark>
+    }
+}</code>
+        </pre>
+    </div>
+    <img src="pictures/thinking-face.png" alt="" class="place right bottom"
+        style="height: 35%; right: 15%; transform: scaleX(-1);">
+</section>
+
+<!--
 <section class="slide">
     <div style="overflow: hidden;">
         <h2>Плохой scroll</h2>
@@ -520,22 +565,23 @@ window.addEventListener('scroll', scrollHandler);</code>
         </pre>
     </div>
 </section>
+-->
 
 <section class="slide">
     <div>
-        <h2>Не забываем про destroy объекта</h2>
+        <h2>Не забываем про unmount</h2>
         <pre>
-<code class="hljs javascript">class InfiniteScroll {
-    constructor() {
-        this._scrollHandler = _.throttle(this.scrollHandler.bind(this),
-            200 /*миллисекунд*/);
-        window.addEventListener('scroll', this._scrollHandler);
+<code class="hljs javascript">class MapControls extends React.PureComponent {
+    onLocationError() {
+        // Показываем плашку ошибки
+        this.setState({ locationFailed: true });
+        // Убираем плашку ошибки через 3 секунды
+        setTimeout(() => {
+            this.setState({ locationFailed: false });
+        }, 3000);
     }
-
-    scrollHandler() {/* код */}
-
-    destroy() {
-        <mark>this._scrollHandler.cancel(); // убираем за собой</mark>
+    componentWillUnmount() {
+        <mark>window.clearTimeout(this.timer);</mark>
     }
 }</code>
         </pre>
@@ -545,7 +591,7 @@ window.addEventListener('scroll', scrollHandler);</code>
 <section class="slide">
     <div>
         <p>
-            После деструктора методы объекта всё ещё могут вызваться:
+            Методы могут вызваться с задержкой:
         </p>
         <ul>
             <li class="next">
@@ -608,8 +654,24 @@ window.addEventListener('scroll', scrollHandler);</code>
         // обработка ответов
     });</code>
         </pre>
+    </div>
+    <img src="pictures/thinking-face.png" alt="" class="place right bottom"
+        style="height: 35%; right: 15%; transform: scaleX(-1);">
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что в этом коде можно ускорить?</h2>
+        <pre>
+<code class="hljs javascript">prepare()
+    <mark>.then(() => query1())</mark>
+    <mark>.then(() => query2())</mark>
+    .then(() => {
+        // обработка ответов
+    });</code>
+        </pre>
         <p class="next">
-            Иногда код запросов можно распараллелить
+            Независимые then можно распараллелить
         </p>
     </div>
     <img src="pictures/thinking-face.png" alt="" class="place right bottom"
@@ -620,7 +682,7 @@ window.addEventListener('scroll', scrollHandler);</code>
     <div>
         <h2>Управляем асинхронным кодом</h2>
         <p>
-            Promise
+            Promise API
         </p>
         <ul>
             <li class="next">
@@ -631,7 +693,8 @@ window.addEventListener('scroll', scrollHandler);</code>
             </li>
             <li class="next">
                 Маловато будет!<br>
-                <img src="pictures/malovato.png" alt="Маловато!" class="place- right-" style="width: 300px; margin-top: 20px;">
+                <img src="pictures/malovato.png" alt="Маловато!" class="place right bottom"
+                    style="width: 400px; margin-top: 20px;">
             </li>
         </ul>
     </div>
