@@ -581,7 +581,7 @@ window.addEventListener('scroll', scrollHandler);</code>
         // Показываем плашку ошибки
         this.setState({ locationFailed: true });
         // Убираем плашку ошибки через 3 секунды
-        setTimeout(() => {
+        this.timer = setTimeout(() => {
             this.setState({ locationFailed: false });
         }, 3000);
     }
