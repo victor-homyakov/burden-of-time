@@ -706,9 +706,7 @@ window.addEventListener('scroll', scrollHandler);</code>
 
 <section class="slide">
     <div>
-        <p>
-            <img src="pictures/async-logo.svg" alt="async" style="height: 200px;">
-        </p>
+        <h2><img src="pictures/async-logo.svg" alt="async" style="height: 200px;"></h2>
         <ul>
             <li class="next">
                 <code>async.parallel()</code>
@@ -718,6 +716,27 @@ window.addEventListener('scroll', scrollHandler);</code>
             </li>
             <li class="next">
                 <code>async.waterfall()</code>
+            </li>
+            <li class="next">
+                <code>map</code> <code>reduce</code> <code>each</code> <code>filter</code>
+                для асинхронных итераторов
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2><img src="pictures/bluebird_logo.png" alt="bluebird" style="height: 200px; vertical-align: bottom"> bluebird</h2>
+        <ul>
+            <li class="next">
+                <code>Promise.any()</code>
+            </li>
+            <li class="next">
+                <code>Promise.map(input, mapper, {concurrency})</code>
+            </li>
+            <li class="next">
+                <code>mapSeries</code> <code>reduce</code> <code>each</code> <code>filter</code>
             </li>
         </ul>
     </div>
@@ -831,6 +850,11 @@ const href = await browser.getAttribute(selector, 'href'); // ждём выпо�
             <li class="next">
                 <a href="https://caolan.github.io/async/">
                     Async
+                </a>
+            </li>
+            <li class="next">
+                <a href="http://bluebirdjs.com/docs/api-reference.html">
+                    Bluebird
                 </a>
             </li>
             <li class="next">
