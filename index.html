@@ -93,7 +93,12 @@
         <p>
             Я работал в трёх продуктовых компаниях,
             видел много кода в проектах на разных языках и фреймворках
-            (Java, C#, JavaScript).
+        </p>
+        <p>
+            <img style="width: 100px; vertical-align: middle;" src="pictures/C_Sharp_logo.svg" alt="C#">
+            <img style="width: 100px; vertical-align: middle;" src="pictures/Java_logo.svg" alt="Java">
+            <img style="width: 100px; vertical-align: middle;" src="pictures/JavaScript_logo.svg" alt="JavaScript">
+            <img style="width: 100px; vertical-align: middle;" src="pictures/Ruby_logo.svg" alt="Ruby">
         </p>
     </div>
     <img class="place left height cover" src="pictures/me.jpg" alt="Виктор Хомяков">
@@ -153,7 +158,7 @@
 <!-- 1.1 -->
 <section class="slide">
     <div>
-        <h2 class="shout shrink">1.1. Время не стоит на месте</h2>
+        <h2 class="shout shrink">1.1 Время не стоит на месте</h2>
     </div>
 </section>
 
@@ -193,62 +198,6 @@ queryDatabase(startDate, endDate);
 
 <!--
 <section class="slide">
-    <h2 style="color: white; margin-left: 70px;">Промо-акция!!! Промо-акция!!! Промо-акция!!!</h2>
-    <img src="pictures/promo-big-1.jpg" alt="Promo" class="cover">
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Ставим cookies</h2>
-        <pre>
-<code class="hljs javascript">const expires1 = getDay(Date.now()) + 7;
-setCookie1(expires1);
-
-const expires2 = getDay(Date.now()) + 7;
-setCookie2(expires2);</code>
-        </pre>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Ставим cookies</h2>
-        <pre>
-<code class="hljs javascript">const expires1 = getDay(Date.now()) + 7;
-setCookie1(expires1);
-// 2019-05-30
-const expires2 = getDay(Date.now()) + 7;
-setCookie2(expires2);
-// 2019-05-31</code>
-        </pre>
-        <p class="next">
-            <code>Date.now()</code> &mdash; не константа!
-        </p>
-        <p class="place right bottom">
-            <img src="pictures/trollface.png" alt="" class="place right bottom" style="margin-bottom: 20px;">
-            Проблемы, тимлид?
-        </p>
-    </div>
-</section>
-
-<section class="slide">
-    <div>
-        <h2>Ставим cookies</h2>
-        <pre>
-<code class="hljs javascript">const now = Date.now();
-const expires1 = getDay(now) + 7;
-setCookie1(expires1);
-// 2019-05-30
-const expires2 = getDay(now) + 7;
-setCookie2(expires2);
-// 2019-05-30</code>
-        </pre>
-    </div>
-</section>
--->
-
-<!--
-<section class="slide">
     <div>
         <h2>Сценарии</h2>
         <ul>
@@ -275,19 +224,10 @@ setCookie2(expires2);
         <h2>Мораль</h2>
         <ul>
             <li>
-                При двух вызовах подряд <code>Date.now()</code> или <code>new Date()</code> может быть&hellip;
+                <code>Date.now() !== Date.now()</code>
             </li>
             <li class="next">
-                <code>Date.now() === Date.now()</code>
-            </li>
-            <li class="next">
-                <code>Date.now() < Date.now()</code>
-            </li>
-            <li class="next">
-                <code>Date.now() > Date.now()</code>
-            </li>
-            <li class="next">
-                В одном методе должен быть только один <code>Date.now()</code> или <code>new Date()</code>
+                Один метод &mdash; один <code>Date.now()</code> или <code>new Date()</code>
             </li>
             <li class="next">
                 Связанные по смыслу переменные должны вычисляться из одной даты
@@ -299,7 +239,7 @@ setCookie2(expires2);
 <!-- 1.2 -->
 <section class="slide">
     <div>
-        <h2 class="shout shrink">1.2. Измерение интервалов и логирование событий</h2>
+        <h2 class="shout shrink">1.2 Измерение интервалов и логирование событий</h2>
     </div>
 </section>
 
@@ -329,10 +269,13 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
 
 <section class="slide">
     <div>
-        <h2>JavaScript</h2>
+        <h2>Мораль</h2>
         <ul>
             <li>
-                <code>Date.now()</code> &mdash; неравномерный и немонотонный
+                <code>Date.now()</code> &mdash; неравномерный
+            </li>
+            <li class="next">
+                <code>Date.now()</code> &mdash; немонотонный
             </li>
             <li class="next">
                 NTP daemon может
@@ -344,7 +287,7 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
                 Пользователь может сам менять время
             </li>
             <li class="next">
-                Есть <code>performance.now()</code>
+                Используем <code>performance.now()</code>
             </li>
         </ul>
     </div>
@@ -358,7 +301,7 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
                 Аналогичная проблема, гуглить "consistent monotonic clock"
             </li>
             <li class="next">
-                Для Java есть
+                В Java есть
                 <a href="https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/System.html#nanoTime()">
                     System.nanoTime()
                 </a>
@@ -375,6 +318,10 @@ log(`Транзакция длилась ${finish - start}мс`); // Транз�
         <img src="pictures/clock-9.jpg" style="width: 31%" alt="Clock 9" class="next">
         <p class="next">
             Вектор времени или счётчики событий
+        </p>
+        <p class="next">
+            Фронт + бэк = распределённая система
+            <!-- Логируем и клиентское и серверное время, не путаем времена в логах -->
         </p>
     </div>
 </section>
@@ -501,10 +448,55 @@ var suggestions = keyups.flatMapLatest(ajax); // игнорируем стары
 <!-- 2.2 -->
 <section class="slide">
     <div>
-        <h2 class="shout shrink">2.2 Есть ли жизнь после destroy?</h2>
+        <h2 class="shout shrink">2.2 О жизни React-компонентов</h2>
     </div>
 </section>
 
+<section class="slide">
+    <div>
+        <h2>Что не так в этом коде?</h2>
+        <pre>
+<code class="hljs javascript">class MapControls extends React.PureComponent {
+    // ...
+    onLocationError() {
+        // Показываем плашку ошибки
+        this.setState({ locationFailed: true });
+
+        // Убираем плашку ошибки через 3 секунды
+        setTimeout(() => {
+            this.setState({ locationFailed: false });
+        }, 3000);
+    }
+}</code>
+        </pre>
+    </div>
+    <img src="pictures/thinking-face.png" alt="" class="place right bottom"
+        style="height: 35%; right: 15%; transform: scaleX(-1);">
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что не так в этом коде?</h2>
+        <pre>
+<code class="hljs javascript">class MapControls extends React.PureComponent {
+    // ...
+    onLocationError() {
+        // Показываем плашку ошибки
+        this.setState({ locationFailed: true });
+
+        // Убираем плашку ошибки через 3 секунды
+        <mark>setTimeout(() => {</mark>
+            <mark>this.setState({ locationFailed: false });</mark>
+        <mark>}, 3000);</mark>
+    }
+}</code>
+        </pre>
+    </div>
+    <img src="pictures/thinking-face.png" alt="" class="place right bottom"
+        style="height: 35%; right: 15%; transform: scaleX(-1);">
+</section>
+
+<!--
 <section class="slide">
     <div style="overflow: hidden;">
         <h2>Плохой scroll</h2>
@@ -578,22 +570,23 @@ window.addEventListener('scroll', scrollHandler);</code>
         </pre>
     </div>
 </section>
+-->
 
 <section class="slide">
     <div>
-        <h2>Не забываем про destroy объекта</h2>
+        <h2>Не забываем про unmount</h2>
         <pre>
-<code class="hljs javascript">class InfiniteScroll {
-    constructor() {
-        this._scrollHandler = _.throttle(this.scrollHandler.bind(this),
-            200 /*миллисекунд*/);
-        window.addEventListener('scroll', this._scrollHandler);
+<code class="hljs javascript">class MapControls extends React.PureComponent {
+    onLocationError() {
+        // Показываем плашку ошибки
+        this.setState({ locationFailed: true });
+        // Убираем плашку ошибки через 3 секунды
+        setTimeout(() => {
+            this.setState({ locationFailed: false });
+        }, 3000);
     }
-
-    scrollHandler() {/* код */}
-
-    destroy() {
-        <mark>this._scrollHandler.cancel(); // убираем за собой</mark>
+    componentWillUnmount() {
+        <mark>window.clearTimeout(this.timer);</mark>
     }
 }</code>
         </pre>
@@ -603,7 +596,7 @@ window.addEventListener('scroll', scrollHandler);</code>
 <section class="slide">
     <div>
         <p>
-            После деструктора методы объекта всё ещё могут вызваться:
+            Методы могут вызваться с задержкой:
         </p>
         <ul>
             <li class="next">
@@ -630,10 +623,10 @@ window.addEventListener('scroll', scrollHandler);</code>
         </p>
         <ul>
             <li class="next">
-                вызов кода мёртвого объекта
+                утечки памяти (живой объект держит ссылку)
             </li>
             <li class="next">
-                утечки памяти
+                вызов кода мёртвого объекта
             </li>
         </ul>
     </div>
@@ -666,8 +659,24 @@ window.addEventListener('scroll', scrollHandler);</code>
         // обработка ответов
     });</code>
         </pre>
+    </div>
+    <img src="pictures/thinking-face.png" alt="" class="place right bottom"
+        style="height: 35%; right: 15%; transform: scaleX(-1);">
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Что в этом коде можно ускорить?</h2>
+        <pre>
+<code class="hljs javascript">prepare()
+    <mark>.then(() => query1())</mark>
+    <mark>.then(() => query2())</mark>
+    .then(() => {
+        // обработка ответов
+    });</code>
+        </pre>
         <p class="next">
-            Иногда код запросов можно распараллелить
+            Независимые then можно распараллелить
         </p>
     </div>
     <img src="pictures/thinking-face.png" alt="" class="place right bottom"
@@ -678,7 +687,7 @@ window.addEventListener('scroll', scrollHandler);</code>
     <div>
         <h2>Управляем асинхронным кодом</h2>
         <p>
-            Promise
+            Promise API
         </p>
         <ul>
             <li class="next">
@@ -689,7 +698,7 @@ window.addEventListener('scroll', scrollHandler);</code>
             </li>
             <li class="next">
                 Маловато будет!<br>
-                <img src="pictures/malovato.png" alt="Маловато!" class="place- right-" style="width: 300px; margin-top: 20px;">
+                <img src="pictures/malovato.png" alt="Маловато!" class="place right bottom" style="width: 500px;">
             </li>
         </ul>
     </div>
@@ -697,10 +706,7 @@ window.addEventListener('scroll', scrollHandler);</code>
 
 <section class="slide">
     <div>
-        <p>
-            <a href="https://caolan.github.io/async/">Async</a>:
-            библиотека для удобного планирования задач
-        </p>
+        <h2><img src="pictures/async-logo.svg" alt="async" style="height: 200px;"></h2>
         <ul>
             <li class="next">
                 <code>async.parallel()</code>
@@ -710,6 +716,27 @@ window.addEventListener('scroll', scrollHandler);</code>
             </li>
             <li class="next">
                 <code>async.waterfall()</code>
+            </li>
+            <li class="next">
+                <code>map</code> <code>reduce</code> <code>each</code> <code>filter</code>
+                для асинхронных итераторов
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2><img src="pictures/bluebird_logo.png" alt="bluebird" style="height: 200px; vertical-align: bottom"> bluebird</h2>
+        <ul>
+            <li class="next">
+                <code>Promise.any()</code>
+            </li>
+            <li class="next">
+                <code>Promise.map(input, mapper, {concurrency})</code>
+            </li>
+            <li class="next">
+                <code>mapSeries</code> <code>reduce</code> <code>each</code> <code>filter</code>
             </li>
         </ul>
     </div>
@@ -746,8 +773,8 @@ window.addEventListener('scroll', scrollHandler);</code>
     <div>
         <h2>Используя await, главное &mdash; не перестараться</h2>
         <pre>
-<code class="hljs javascript">const data1 = await query1();
-const data2 = await query2();</code>
+<code class="hljs javascript">const url = await browser.getUrl();
+const href = await browser.getAttribute(selector, 'href');</code>
         </pre>
     </div>
 </section>
@@ -756,8 +783,8 @@ const data2 = await query2();</code>
     <div>
         <h2>Используя await, главное &mdash; не перестараться</h2>
         <pre>
-<code class="hljs javascript">const data1 = await query1(); // ждём выполнения первого запроса
-const data2 = await query2();</code>
+<code class="hljs javascript">const url = await browser.getUrl();                        // ждём выполнения
+const href = await browser.getAttribute(selector, 'href');</code>
         </pre>
     </div>
 </section>
@@ -766,16 +793,14 @@ const data2 = await query2();</code>
     <div>
         <h2>Используя await, главное &mdash; не перестараться</h2>
         <pre>
-<code class="hljs javascript">const data1 = await query1(); // ждём выполнения первого запроса
-const data2 = await query2(); // ждём выполнения второго запроса</code>
+<code class="hljs javascript">const url = await browser.getUrl();                        // ждём выполнения
+const href = await browser.getAttribute(selector, 'href'); // ждём выполнения</code>
         </pre>
         <pre class="next">
-<code class="hljs javascript">prepare()
-    .then(() => query1())
-    .then(() => query2())
-    .then(() => {
-        // обработка ответов
-    });</code>
+<code class="hljs javascript">browser.getUrl()
+    .then(result => url = result)
+    .then(() => browser.getAttribute(selector, 'href'))
+    .then(result => href = result);</code>
         </pre>
     </div>
 </section>
@@ -784,8 +809,8 @@ const data2 = await query2(); // ждём выполнения второго з
     <div>
         <h2>Распараллелим независимые запросы</h2>
         <pre>
-<code class="hljs javascript">const [data1, data2] = await Promise.all(
-    [query1(), query2()]
+<code class="hljs javascript">const [url, href] = await Promise.all(
+    [browser.getUrl(), browser.getAttribute(selector, 'href')]
 );</code>
         </pre>
     </div>
@@ -825,6 +850,11 @@ const data2 = await query2(); // ждём выполнения второго з
             <li class="next">
                 <a href="https://caolan.github.io/async/">
                     Async
+                </a>
+            </li>
+            <li class="next">
+                <a href="http://bluebirdjs.com/docs/api-reference.html">
+                    Bluebird
                 </a>
             </li>
             <li class="next">
